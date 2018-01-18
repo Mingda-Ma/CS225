@@ -7,7 +7,7 @@
 #include "lab_intro.h"
 
 using namespace cs225;
-
+using namespace std;
 /**
  * Returns an image that has been transformed to grayscale.
  *
@@ -55,9 +55,21 @@ PNG grayscale(PNG image) {
  * @return The image with a spotlight.
  */
 PNG createSpotlight(PNG image, int centerX, int centerY) {
-
-  return image;
-  
+int w = image.width();
+  int h = image.height();
+  if (centerY>0 && centerY<h && centerX>0 && centerX<w){
+    for(int i=0; i<w; i++){
+      for (int j=0; j<h; j++){
+        double dist = sqrt(pow((i - centerX),2) + pow((j - centerY),2));
+        HSLAPixel& temp = image.getPixel(i,j);
+        if (dist <= 160)
+          temp.l = (temp.l)*(1-dist*0.005);
+        else 
+          temp.l = 0.2*temp.l;
+      }
+    }
+  }
+  return image;  
 }
  
 
@@ -72,7 +84,31 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
  * @return The illinify'd image.
 **/
 PNG illinify(PNG image) {
+  for (unsigned i =0; i< image.width(); i++){
+    for (unsigned j=0; j< image.height(); j++){
+      HSLAPixel& temp = image.getPixel(i,j);
+      if (temp.h < 216 and temp.h >11)
+        temp.h = (216 - temp.h)<(temp.h - 11)?216:11;
+      else {
+        if (temp.h <11 && temp.h >0)
+          temp.h = temp.h + 360; 
+        temp.h = (temp.h - 216)<(371 - temp.h)?216:11; 
+      }
 
+    }
+  }
+  // return image;
+//   for (unsigned x=0;x<image.width();x++){
+//     for (unsigned y=0;y<image.height();y++){
+//       HSLAPixel pixel=image.getPixel(x,y);
+//       if (min(abs(pixel.h-11.0),abs(371.0-pixel.h))<min(abs(pixel.h-216.0),abs(pixel.h+144.0))){
+//   pixel.h=11.0;
+//       }
+//       else{
+//   pixel.h=216.0;
+//       }
+//     }
+// }
   return image;
 }
  
@@ -90,6 +126,12 @@ PNG illinify(PNG image) {
 * @return The watermarked image.
 */
 PNG watermark(PNG firstImage, PNG secondImage) {
-
+  for (unsigned i=0; i< secondImage.width(); i++){
+    for (unsigned j=0; j<secondImage.height();j++){
+      HSLAPixel& pixel = secondImage.getPixel(i,j);
+      if (pixel.l == 1)
+        firstImage.getPixel(i,j).l  =0.2+(firstImage.getPixel(i,j).l); 
+    }
+  }
   return firstImage;
 }
