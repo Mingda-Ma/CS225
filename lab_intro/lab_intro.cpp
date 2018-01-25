@@ -96,19 +96,8 @@ PNG illinify(PNG image) {
       }
 
     }
+
   }
-  // return image;
-//   for (unsigned x=0;x<image.width();x++){
-//     for (unsigned y=0;y<image.height();y++){
-//       HSLAPixel pixel=image.getPixel(x,y);
-//       if (min(abs(pixel.h-11.0),abs(371.0-pixel.h))<min(abs(pixel.h-216.0),abs(pixel.h+144.0))){
-//   pixel.h=11.0;
-//       }
-//       else{
-//   pixel.h=216.0;
-//       }
-//     }
-// }
   return image;
 }
  

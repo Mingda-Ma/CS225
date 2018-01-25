@@ -28,12 +28,13 @@ HSLAPixel::HSLAPixel(double hue, double saturation, double luminance, double alp
 	l = luminance;
 	a = alpha;
 }
-void HSLAPixel::operator=(HSLAPixel other){
-	h = other.h;
-	s = other.s;
-	l = other.l;
-	a = other.a;
-}
+// void HSLAPixel::operator=(HSLAPixel other){
+// 	h = other.h;
+// 	l = other.l;
+// 	s = other.s;
+// 	a = other.a;
+// }
+
 
 }
 

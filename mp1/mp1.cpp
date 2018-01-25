@@ -72,7 +72,7 @@ PNG myArt(unsigned int width, unsigned int height) {
   			// else 
   			// 	*png.getPixel(i,j) = purple;
   			// vector<double,double,double> pixel(iter,(float) abs(j - orig_x) / width_size * Maxval)
-  			HSLAPixel rv(iter,float(j)/width,float(i)/width,1);
+  			HSLAPixel rv(iter,float(j)/width,float(i)/width,1); 
   			*png.getPixel(i,j) = rv;
   		}
   		else{

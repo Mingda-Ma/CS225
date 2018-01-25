@@ -13,7 +13,7 @@ namespace cs225 {
 		HSLAPixel();
 		HSLAPixel(double hue, double saturation, double luminance);
 		HSLAPixel(double hue, double saturation, double luminance, double alpha);
-		void operator=(HSLAPixel other);
+		// void operator=(HSLAPixel other);
 		double h;
 		double s;
 		double l;
