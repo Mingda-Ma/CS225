@@ -4,7 +4,28 @@
  */
 #ifndef STICKERSHEET_H_
 #define STICKERSHEET_H_
-
+#include "Image.h"
+#include <vector>
+#include <stdlib.h>
+using namespace std;
+typedef pair<unsigned, unsigned> Coord;
+class StickerSheet: public Image{
+private:
+	vector<Image*> stickers;
+	vector<Coord> coord;
+	Image canvas;
+public:
+	StickerSheet(Image const& c, unsigned max);
+	~StickerSheet();
+	StickerSheet(StickerSheet const& other);
+	// StickerSheet& operator=(StickerSheet const& other)const;
+	void changeMaxSticker(unsigned max);
+	int addSticker(Image& sticker,unsigned x,unsigned y);
+	bool translate(unsigned index,unsigned x,unsigned y);
+	void removeSticker(unsigned index);
+	Image* getSticker(unsigned index)const;
+	Image render()const;
+};
 
 #endif
  

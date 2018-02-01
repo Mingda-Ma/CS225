@@ -16,14 +16,10 @@ using namespace std;
  */
 int main()
 {
-    cout << endl;
-
     fileio::init();
     Allocator theAllocator("students.txt", "rooms.txt");
     theAllocator.allocate();
     theAllocator.printRooms();
     fileio::halt();
-
-    cout << endl;
     return 0;
 }
