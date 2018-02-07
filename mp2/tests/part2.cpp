@@ -1,4 +1,4 @@
-/*
+
 #include "../cs225/catch/catch.hpp"
 #include "../Image.h"
 #include "../cs225/PNG.h"
@@ -57,13 +57,16 @@ TEST_CASE("StickerSheet::changeMaxStickers() can increase the number of stickers
 
   StickerSheet sheet(alma, 1);
   sheet.addSticker(i, 20, 200);
-
+  // cout << "here"<<endl;
   sheet.changeMaxStickers(2);
+  // cout << "addSticker"<<endl;
   sheet.addSticker(i, 40, 200);
-
+  // cout << "hehe"<<endl;
   Image expected;
   expected.readFromFile("tests/expected-2.png");
-
+  sheet.render();
+  cout << "hehe"<<endl;
+  // sheet.writeToFile("fuck.png");
   REQUIRE( sheet.render() == expected );
 }
 
@@ -112,7 +115,6 @@ TEST_CASE("StickerSheet::removeSticker() can remove the first sticker", "[weight
   sheet.addSticker(i, 50, 200);
   sheet.addSticker(i, 20, 200);
   sheet.removeSticker(0);
-
   REQUIRE( sheet.render() == expected );
 }
 
@@ -255,8 +257,11 @@ TEST_CASE("StickerSheet's assignment operator makes an independent copy", "[weig
   StickerSheet s2(alma, 5);
   s2 = s1;
   s2.removeSticker(1);
-
+  s1.render();
+  s2.render();
+  s1.writeToFile("fuck.png");
+  s2.writeToFile("fuck1.png");
   REQUIRE( s1.render() == expected2 );
   REQUIRE( s2.render() == expected );
 }
-*/
+
