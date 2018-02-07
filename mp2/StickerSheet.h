@@ -19,7 +19,7 @@ public:
 	~StickerSheet();
 	StickerSheet(StickerSheet const& other);
 	// StickerSheet& operator=(StickerSheet const& other)const;
-	void changeMaxSticker(unsigned max);
+	void changeMaxStickers(unsigned max);
 	int addSticker(Image& sticker,unsigned x,unsigned y);
 	bool translate(unsigned index,unsigned x,unsigned y);
 	void removeSticker(unsigned index);

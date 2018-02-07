@@ -28,7 +28,7 @@ StickerSheet::StickerSheet(StickerSheet const& other){
 // 	coord(other.max);
 // 	return *this;	
 // }
-void StickerSheet::changeMaxSticker(unsigned max){
+void StickerSheet::changeMaxStickers(unsigned max){
 	if (max < stickers.size()){
 		for (unsigned i=0; i< (stickers.size()-max);i++){
 			stickers.pop_back();
@@ -39,7 +39,7 @@ void StickerSheet::changeMaxSticker(unsigned max){
 		for (unsigned i=0; i< (max-stickers.size());i++){
 			stickers.push_back(NULL);
 			coord.push_back(Coord(0,0));
-			cout << stickers.size() <<endl;
+			cout << stickers.size() <<"    "<<42<<endl;
 		}
 	}
 }
