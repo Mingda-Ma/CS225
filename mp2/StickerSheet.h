@@ -11,14 +11,14 @@ using namespace std;
 typedef pair<unsigned, unsigned> Coord;
 class StickerSheet: public Image{
 private:
+	Image canvas;
 	vector<Image*> stickers;
 	vector<Coord> coord;
-	Image canvas;
 public:
 	StickerSheet(Image const& c, unsigned max);
 	~StickerSheet();
 	StickerSheet(StickerSheet const& other);
-	// StickerSheet& operator=(StickerSheet const& other)const;
+	StickerSheet& operator=(StickerSheet const& other);
 	void changeMaxStickers(unsigned max);
 	int addSticker(Image& sticker,unsigned x,unsigned y);
 	bool translate(unsigned index,unsigned x,unsigned y);

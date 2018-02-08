@@ -1,8 +1,17 @@
 #include "StickerSheet.h"
 #include <cmath>
-StickerSheet::StickerSheet(Image const& c, unsigned max){
+StickerSheet& StickerSheet::operator=(StickerSheet const& other){
+	if (this != &other){
+	stickers = other.stickers;
+	coord = other.coord;
+	canvas = other.canvas;
+}
+return *this;
+}
+
+StickerSheet::StickerSheet(Image const& c, unsigned max):canvas(c){
 	stickers.resize(max);
-	canvas = c;
+	// cout << canvas.width()<< "  "<< canvas.height()<< endl;
 	coord.resize(max);
 	for (unsigned i=0;i<max;i++){
 		stickers[i]=NULL;
@@ -30,7 +39,7 @@ StickerSheet::StickerSheet(StickerSheet const& other){
 // }
 void StickerSheet::changeMaxStickers(unsigned max){
 	if (max < stickers.size()){
-		for (unsigned i=0; i< (stickers.size()-max);i++){
+		for (unsigned i=stickers.size(); i!=max;i--){
 			stickers.pop_back();
 			coord.pop_back();			
 		}
@@ -52,7 +61,7 @@ int StickerSheet::addSticker(Image& sticker,unsigned x,unsigned y){
 			coord[i] = temp;
 			return i;
 		}
-		break;
+		// break;
 	}
 	return -1;
 
@@ -80,7 +89,7 @@ Image* StickerSheet::getSticker(unsigned index)const{
 Image StickerSheet::render()const{
 	unsigned maxheight = canvas.height();
 	unsigned maxwidth = canvas.width();
-	Image rv = canvas;
+	Image rv(canvas);
 	for (unsigned i=0; i< stickers.size();i++){
 		if (stickers[i] != NULL){
 			maxwidth = max(coord[i].first + stickers[i]->width(),maxwidth);
@@ -92,8 +101,10 @@ Image StickerSheet::render()const{
 		if (stickers[index] != NULL){
 			for (unsigned x=coord[index].first;x<(coord[index].first+stickers[index]->width());x++){
 				for(unsigned y=coord[index].second;y<(coord[index].second+stickers[index]->height());y++){
-					if (stickers[index]->getPixel(x-coord[index].first,y-coord[index].second).a != 0)
+					if (stickers[index]->getPixel(x-coord[index].first,y-coord[index].second).a != 0){
 						rv.getPixel(x,y) = stickers[index]->getPixel(x-coord[index].first,y-coord[index].second);
+
+					}
 				}
 			}
 		}

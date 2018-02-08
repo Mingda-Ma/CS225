@@ -64,9 +64,9 @@ TEST_CASE("StickerSheet::changeMaxStickers() can increase the number of stickers
   // cout << "hehe"<<endl;
   Image expected;
   expected.readFromFile("tests/expected-2.png");
-  sheet.render();
+  Image temp = sheet.render();
   cout << "hehe"<<endl;
-  // sheet.writeToFile("fuck.png");
+  temp.writeToFile("fuck.png");
   REQUIRE( sheet.render() == expected );
 }
 
@@ -80,7 +80,8 @@ TEST_CASE("StickerSheet::changeMaxStickers() discards stickers beyond the end of
   sheet.addSticker(i, 40, 200);
   sheet.addSticker(i, 60, 200);
   sheet.changeMaxStickers(1);
-
+  Image res = sheet.render();
+  res.writeToFile("changeMaxStickers.png");
   REQUIRE( sheet.render() == expected );
 }
 
@@ -257,10 +258,10 @@ TEST_CASE("StickerSheet's assignment operator makes an independent copy", "[weig
   StickerSheet s2(alma, 5);
   s2 = s1;
   s2.removeSticker(1);
-  s1.render();
-  s2.render();
-  s1.writeToFile("fuck.png");
-  s2.writeToFile("fuck1.png");
+  Image temp1 =s1.render();
+  Image temp =s2.render();
+   temp1.writeToFile("result2.png");
+  temp.writeToFile("result.png");
   REQUIRE( s1.render() == expected2 );
   REQUIRE( s2.render() == expected );
 }

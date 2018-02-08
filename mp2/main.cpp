@@ -24,17 +24,20 @@ int main() {
  Image alma; alma.readFromFile("tests/alma.png");
   Image i;    i.readFromFile("tests/i.png");
 
-  StickerSheet sheet(alma, 1);
-  sheet.addSticker(i, 20, 200);
+  StickerSheet sheet(alma, 3);
+  sheet.addSticker(i,20,400);
+  sheet.addSticker(i,50,300);
+  for(int i=0;i< 3;i++){
+    if (sheet.getSticker(i) != NULL)
+      cout << "not null"<< endl;
+  }
+  //sheet.addSticker(i, 20, 200);
   // cout << "here"<<endl;
-  sheet.changeMaxStickers(2);
+  // sheet.changeMaxStickers(2);
   // cout << "addSticker"<<endl;
-  sheet.addSticker(i, 40, 200);
+  // sheet.addSticker(i, 40, 200);
   // cout << "hehe"<<endl;
-  Image expected;
-  expected.readFromFile("tests/expected-2.png");
-  sheet.render();
-  sheet.writeToFile("hehe.png");
-  cout <<"fuck"<<endl;
+  Image res=sheet.render();
+  res.writeToFile("mp2.png");
   return 0;
 }
