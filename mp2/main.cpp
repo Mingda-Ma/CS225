@@ -3,41 +3,16 @@
 #include "cs225/PNG.h"
 int main() {
 
-  //
-  // Reminder:
-  //   Before exiting main, save your creation to disk as myImage.png
-  //
-	// Image a,b,out;
-	// a.readFromFile("alma.png");
-	// b.readFromFile("i.png");
-	// StickerSheet s(a,2);
-	// s.addSticker(b,900,250);
-	// s.addSticker(b,600,600);
-	// s.changeMaxStickers(4);
-	// s.addSticker(b,700,800);
-	// s.addSticker(b,200,100);
-	// cout << 19<<endl;
-	// s.removeSticker(3);
-	// cout << 21 << endl;
-	// out = s.render();
-	// out.writeToFile("render.png");
- Image alma; alma.readFromFile("tests/alma.png");
-  Image i;    i.readFromFile("tests/i.png");
+ Image i;
+ i.readFromFile("alma.png");
+  StickerSheet res(i,4);
+  Image sk1;
+  sk1.readFromFile("i.png");
+  res.addSticker(sk1,20,300);
+  res.addSticker(sk1,100,300);
+  res.addSticker(sk1,200,300);
 
-  StickerSheet sheet(alma, 3);
-  sheet.addSticker(i,20,400);
-  sheet.addSticker(i,50,300);
-  for(int i=0;i< 3;i++){
-    if (sheet.getSticker(i) != NULL)
-      cout << "not null"<< endl;
-  }
-  //sheet.addSticker(i, 20, 200);
-  // cout << "here"<<endl;
-  // sheet.changeMaxStickers(2);
-  // cout << "addSticker"<<endl;
-  // sheet.addSticker(i, 40, 200);
-  // cout << "hehe"<<endl;
-  Image res=sheet.render();
-  res.writeToFile("mp2.png");
+  Image temp = res.render();
+  temp.writeToFile("fuck.png");
   return 0;
 }
