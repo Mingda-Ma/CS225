@@ -3,7 +3,8 @@
  * This is where you will implement the required functions for the
  *  stacks and queues portion of the lab.
  */
-
+#include <iostream>
+using namespace std;
 namespace QuackFun {
 
 /**
@@ -25,9 +26,19 @@ namespace QuackFun {
 template <typename T>
 T sum(stack<T>& s)
 {
-
+    T temp,rv;
+    if (s.empty()){
+        return T();
+    }
+    else{
+        temp = s.top();
+        s.pop();
+        rv = temp + sum(s);
+        s.push(temp);
+        return rv;
+    }
     // Your code here
-    return T(); // stub return value (0 for primitive types). Change this!
+     // stub return value (0 for primitive types). Change this!
                 // Note: T() is the default value for objects, and 0 for
                 // primitive types
 }
@@ -49,9 +60,28 @@ T sum(stack<T>& s)
  */
 bool isBalanced(queue<char> input)
 {
-
+    stack<char> s;
+    while (!input.empty()){
+        if (input.front() == '['){
+            s.push(input.front());
+            input.pop();
+        }
+        else if (input.front() == ']'){
+            if (!s.empty()){
+                s.pop();
+                input.pop();
+            }
+            else
+                return false;
+        }
+        else
+            input.pop();
+    }
+    if (s.empty())
+        return true;
+    else
+        return false;
     // @TODO: Make less optimistic
-    return true;
 }
 
 /**
@@ -70,8 +100,36 @@ template <typename T>
 void scramble(queue<T>& q)
 {
     stack<T> s;
-    // optional: queue<T> q2;
+    queue<T> q2;
+    int ct=1;
+    while (!q.empty()){
+        for (int i=0;i<ct&&!q.empty();i++){
+            T temp = q.front();
+            q.pop();
+            if (ct%2 ==1){
+               q2.push(temp);
+            }
+            else{
+                s.push(temp);
+            }
+        }
+        if (ct%2 ==0){
+            while (!s.empty()){
+                T temp = s.top();
+                q2.push(temp);
+                s.pop();
+            }
+        }
+        ct++;
+    }
 
+    q = q2;
+    while (!q2.empty()){
+        T temp = q2.front();
+        cout << temp <<" ";
+        q2.pop();
+    }
+    cout <<endl;
     // Your code here
 }
 
@@ -94,12 +152,18 @@ template <typename T>
 bool verifySame(stack<T>& s, queue<T>& q)
 {
     bool retval = true; // optional
-    // T temp1; // rename me
-    // T temp2; // rename :)
+    T temp;
+    if (!s.empty()){
+        temp = s.top();
+        s.pop();
+        retval = verifySame(s,q);
+        retval = retval&&(q.front()==temp);
+        q.push(q.front());
+        q.pop();
+    }
+    return retval;
 
     // Your code here
-
-    return retval;
 }
 
 }
