@@ -158,6 +158,7 @@ bool verifySame(stack<T>& s, queue<T>& q)
         s.pop();
         retval = verifySame(s,q);
         retval = retval&&(q.front()==temp);
+        s.push(temp);
         q.push(q.front());
         q.pop();
     }
