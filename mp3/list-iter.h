@@ -2,9 +2,10 @@
 // http://www.cplusplus.com/reference/std/iterator/iterator/
 class ListIterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
-    ListNode* p;
-
+        ListNode* p;
   public:
+
+
     ListIterator() : p(NULL) { }
     ListIterator(ListNode* x) : p(x) { }
 
@@ -12,6 +13,7 @@ class ListIterator : public std::iterator<std::bidirectional_iterator_tag, T>
     ListIterator& operator++()
     {
         // @TODO: graded in MP3.1
+        p = p->next;
         return *this;
     }
     
@@ -34,7 +36,9 @@ class ListIterator : public std::iterator<std::bidirectional_iterator_tag, T>
     ListIterator operator--(int)
     {
         // @TODO: graded in MP3.1
-        return ListIterator();
+        ListNode* r = p;
+        p = p->prev;
+        return ListIterator(r);
     }
 
     bool operator==(const ListIterator& rhs)
@@ -44,7 +48,7 @@ class ListIterator : public std::iterator<std::bidirectional_iterator_tag, T>
     bool operator!=(const ListIterator& rhs)
     {
         // @TODO: graded in MP3.1
-        return false;
+        return p!=rhs.p;
     }
 
     const T& operator*()

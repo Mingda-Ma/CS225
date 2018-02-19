@@ -30,8 +30,9 @@ TEST_CASE("List::insertBack", "[weight=1][part=1]") {
 TEST_CASE("List::reverse", "[weight=1][part=1]") {
   PNG in;        in.readFromFile("tests/alma.png");
   PNG expected;  expected.readFromFile("tests/expected-reserve.png");
-
   List<HSLAPixel> list = imageToList(in);
+  cout << list.size()<<endl;
+
   list.reverse();
   PNG out = listToImage(list, in.width(), in.height());
   out.writeToFile("actual-reserve.png");
