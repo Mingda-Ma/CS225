@@ -248,7 +248,23 @@ List<T> List<T>::split(int splitPoint) {
 template <class T>
 typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
   /// @todo Graded in MP3.2
-  return NULL;
+  ListNode* st = start;
+  ListNode* end = start;
+  int ct=0;
+  while (ct < splitPoint-1){
+    if (end == NULL)
+      return NULL;
+    else{
+      end = end->next;
+    }
+    ct++;
+  }
+  ListNode* temp = end;
+  end = end->next;
+  temp->next = NULL;
+  end->prev = NULL;
+  
+  return end;
 }
 
 /**
@@ -289,7 +305,54 @@ void List<T>::mergeWith(List<T> & otherList) {
 template <class T>
 typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) {
   /// @todo Graded in MP3.2
-  return NULL;
+  if (first == NULL){
+    return second;
+  }
+  else if (second == NULL){
+    return first;
+  }
+  else if (second == first){
+    return first;
+  }
+  ListNode* rv;
+  if (first->data < second->data){
+    rv = first;
+    first = first->next;
+  }
+  else{
+    rv = second;
+    second = second->next;
+  }
+  ListNode* h = rv;
+  while (first != NULL and second != NULL){
+    if (first->data < second->data){
+      rv->next = first;
+      first->prev = rv;
+      first = first->next;
+    }
+    else{
+      rv->next = second;
+      second->prev = rv;
+      second = second->next;
+    }
+    rv = rv->next;
+  }
+  if (first == NULL){
+    rv->next = second;
+    second->prev = rv;
+    cout << "first"<<endl;
+  }
+  else{
+    rv->next = first;
+    first->prev = rv;
+    cout << "second"<<endl;
+  }
+  // while (rv != NULL){
+  //   rv = rv->next;
+  // }
+  // tail_ = rv;
+  // second = NULL;
+  return h;
 }
 
 /**
@@ -317,5 +380,23 @@ void List<T>::sort() {
 template <class T>
 typename List<T>::ListNode* List<T>::mergesort(ListNode * start, int chainLength) {
   /// @todo Graded in MP3.2
-  return NULL;
+  ListNode* hd = start;
+  if (chainLength == 1){
+    start->next = NULL;
+    start->prev = NULL;
+    return start;
+  }
+  else{
+    int ct = chainLength/2;
+    ListNode* temp = start;
+    for (int i=0;i< ct; i++){
+      temp= temp->next;
+    }
+    temp->prev->next = NULL;
+    temp->prev = NULL;
+    ListNode* temp1 = mergesort(start,chainLength/2);
+    ListNode* temp2 = mergesort(temp,chainLength - chainLength/2);
+    hd = merge(temp1,temp2);
+  }
+  return hd;
 }
