@@ -80,7 +80,6 @@ void List<T>::insertBack(const T & ndata) {
  */
 template <class T>
 void List<T>::reverse() {
-  cout << "why???"<<endl;
   // if (head_==NULL or tail_==NULL or tail_==head_){
   //   cout << "here"<<endl;
   //   return;
@@ -340,12 +339,10 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
   if (first == NULL){
     rv->next = second;
     second->prev = rv;
-    cout << "first"<<endl;
   }
   else{
     rv->next = first;
     first->prev = rv;
-    cout << "second"<<endl;
   }
   // while (rv != NULL){
   //   rv = rv->next;
