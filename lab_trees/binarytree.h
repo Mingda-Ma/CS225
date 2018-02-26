@@ -112,6 +112,7 @@ class BinaryTree
      *  (not creating a flipped copy).
      */
     void mirror();
+    void mirrorhelp(Node* subroot);
 
     /**
      * isOrdered() function iterative version
@@ -120,7 +121,7 @@ class BinaryTree
      *  criterion for a binary tree to be a binary search tree.
      */
     bool isOrderedIterative() const;
-
+    bool isOrderedIterative(Node* root,T data) const;
     /**
      * isOrdered() function recursive version
      * @return True if an in-order traversal of the tree would produce a
@@ -149,7 +150,7 @@ class BinaryTree
      * @return The sum of the distances of all nodes to the root
      */
     int sumDistances() const;
-
+    int sumDistances(Node* subroot,int dist)const;
     /**
       *  Uses vector to store values of the nodes of a binary tree in order.
       * That is, everything to the left of a node will be pushed before that
