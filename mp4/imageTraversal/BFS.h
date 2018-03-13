@@ -36,6 +36,11 @@ public:
 private:
   /** @todo [Part 1] */
   /** add private members here*/
+	double tol;
+	PNG p;
+	queue<Point> q;
+	Point st;
+	Point curr;
 };
 
 #endif

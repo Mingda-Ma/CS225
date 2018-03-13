@@ -16,7 +16,6 @@
 #include "ImageTraversal.h"
 
 using namespace cs225;
-
 /**
  * A depth-first ImageTraversal.
  * Derived from base class ImageTraversal
@@ -36,6 +35,11 @@ public:
 private:
 	/** @todo [Part 1] */
 	/** add private members here*/
+	double tol;
+	PNG p;
+	stack<Point> stk;
+	Point st;
+	Point curr;
 };
 
 #endif
