@@ -78,7 +78,6 @@ LPHashTable<K, V>::LPHashTable(LPHashTable<K, V> const& other)
 template <class K, class V>
 void LPHashTable<K, V>::insert(K const& key, V const& value)
 {
-
     /**
      * @todo Implement this function.
      *
@@ -86,9 +85,21 @@ void LPHashTable<K, V>::insert(K const& key, V const& value)
      *  0.7). **Do this check *after* increasing elems!!** Also, don't
      *  forget to mark the cell for probing with should_probe!
      */
+     if (shouldResize())
+      resizeTable();
+     size_t idx=hash(key,size);
 
-    (void) key;   // prevent warnings... When you implement this function, remove this line.
-    (void) value; // prevent warnings... When you implement this function, remove this line.
+     if (table[idx]==NULL){
+      table[idx]= new pair<K,V>(key,value);
+    }
+    else{
+      while (table[idx]!=NULL){
+        idx=(idx+1)%size;
+      }
+      table[idx]=new pair<K,V>(key,value);
+    }
+    elems++;
+    should_probe[idx]=true;
 }
 
 template <class K, class V>

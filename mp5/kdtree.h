@@ -260,6 +260,23 @@ class KDTree
     /**
      * @todo Add your helper functions here.
      */
+    vector<Point<Dim>> Points;
+
+    int findMedianIndex(int curDim, int left, int right, int pivotIndex);
+
+    void select(int curDim, int left, int right, int k);
+
+    void build(int curDim, int left, int right);
+
+    KDTree<Dim>::KDTreeNode* putPoints(int left, int right);
+
+    void clear(typename KDTree<Dim>::KDTreeNode* subRoot); 
+
+    Point<Dim> find(const Point<Dim> &query, int curDim, int left, int right, const Point<Dim> &currentBest) const;
+
+    double getD(const Point<Dim> &first, const Point<Dim>&second) const;
+
+    int getDistance(const Point<Dim> &point1, const Point<Dim>&point2) const;
 };
 
 #include "kdtree.cpp"

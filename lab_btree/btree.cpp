@@ -1,3 +1,4 @@
+
 /**
  * @file btree.cpp
  * Implementation of a B-tree class which can be used as a generic dictionary
@@ -30,10 +31,8 @@ V BTree<K, V>::find(const K& key) const
 template <class K, class V>
 V BTree<K, V>::find(const BTreeNode* subroot, const K& key) const
 {
-    /* TODO Finish this function */
-
+    /* TODO Your code goes here! */
     size_t first_larger_idx = insertion_idx(subroot->elements, key);
-
     /* If first_larger_idx is a valid index and the key there is the key we
      * are looking for, we are done. */
 
@@ -47,8 +46,15 @@ V BTree<K, V>::find(const BTreeNode* subroot, const K& key) const
      * a leaf and we didn't find the key in it, then we have failed to find it
      * anywhere in the tree and return the default V.
      */
+	if(!subroot->elements.empty()&&first_larger_idx < subroot->elements.size()&&subroot->elements[first_larger_idx].key == key)
+	{
 
-    return V();
+			return subroot->elements[first_larger_idx].value;
+	}
+    if(!subroot->is_leaf)
+		return find(subroot->children[first_larger_idx],key);
+	else
+		return V();
 }
 
 /**
@@ -61,13 +67,13 @@ template <class K, class V>
 void BTree<K, V>::insert(const K& key, const V& value)
 {
     /* Make the root node if the tree is empty. */
-    if (root == nullptr) {
+    if(root == nullptr) {
         root = new BTreeNode(true, order);
     }
     insert(root, DataPair(key, value));
     /* Increase height by one by tossing up one element from the old
      * root node. */
-    if (root->elements.size() >= order) {
+    if(root->elements.size() >= order) {
         BTreeNode* new_root = new BTreeNode(false, order);
         new_root->children.push_back(root);
         split_child(new_root, 0);
@@ -144,8 +150,18 @@ void BTree<K, V>::split_child(BTreeNode* parent, size_t child_idx)
     /* Iterator for the middle child. */
     auto mid_child_itr = child->children.begin() + mid_child_idx;
 
-
     /* TODO Your code goes here! */
+	DataPair toInsert = *mid_elem_itr;
+	parent->elements.insert(elem_itr, toInsert);
+	parent->children.insert(child_itr,new_right);
+	new_right->elements.assign(mid_elem_itr+1,new_left->elements.end());
+	if(!new_left->is_leaf){
+		new_right->children.assign(mid_child_itr,new_left->children.end());
+    new_left->children.assign(new_left->children.begin(),mid_child_itr);
+   }
+  new_left->elements.assign(new_left->elements.begin(),mid_elem_itr);
+
+	return;
 }
 
 /**
@@ -168,6 +184,25 @@ void BTree<K, V>::insert(BTreeNode* subroot, const DataPair& pair)
      */
 
     size_t first_larger_idx = insertion_idx(subroot->elements, pair);
-
     /* TODO Your code goes here! */
+    BTreeNode* newNode = subroot->children[first_larger_idx];
+	if(!subroot->elements.empty()&&first_larger_idx < subroot->elements.size()&&subroot->elements[first_larger_idx].key == pair.key)
+	{
+
+			return;
+	}
+	if(subroot->is_leaf)
+	{
+		subroot->elements.insert(subroot->elements.begin() + first_larger_idx, pair);
+	}
+	else
+	{
+
+		insert(newNode, pair);
+		if(order<=newNode->elements.size())
+		{
+			split_child(subroot, first_larger_idx);
+		}
+	}
+	return;
 }

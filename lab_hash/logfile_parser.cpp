@@ -9,7 +9,6 @@
 
 #include "logfile_parser.h"
 #include <iostream>
-#include <iomanip>
 
 using std::string;
 using std::vector;
@@ -33,17 +32,14 @@ LogfileParser::LogLine::LogLine(const string& line)
     do {
         iss >> dline;
         dte += dline;
-        dte += " ";
     } while (iss);
-		
-    dte = dte.substr(0, dte.length() - 6); 
-    std::tm tm = {};
-    std::stringstream ss(dte);
-    ss >> std::get_time(&tm, "%a %b %d %H:%M:%S %Y");
+
     date = time(NULL);
+    tm* tme = localtime(&date);
+    strptime(dte.c_str(), "%c", tme);
     // force correct DST
-    tm.tm_isdst = 1;
-    date = mktime(&tm);
+    tme->tm_isdst = 1;
+    date = mktime(tme);
 }
 
 /**
@@ -73,6 +69,20 @@ LogfileParser::LogfileParser(const string& fname) : whenVisitedTable(256)
          * this problem. This should also build the uniqueURLs member
          * vector as well.
          */
+         string unique=ll.customer+ll.url;
+         vector<string>::iterator it;
+         for(it=uniqueURLs.begin();it!=uniqueURLs.end();it++){
+           if(*it==ll.url)
+            break;
+         }
+         if (it==uniqueURLs.end())
+          uniqueURLs.push_back(ll.url);
+        if (whenVisitedTable.keyExists(unique)){
+          if (ll.date>whenVisitedTable[unique])
+            whenVisitedTable[unique]=ll.date;
+        }
+        else
+          whenVisitedTable.insert(unique,ll.date);
     }
     infile.close();
 }
@@ -86,15 +96,14 @@ LogfileParser::LogfileParser(const string& fname) : whenVisitedTable(256)
  */
 bool LogfileParser::hasVisited(const string& customer, const string& url) const
 {
-
     /**
      * @todo Implement this function.
      */
 
-    (void) customer; // prevent warnings... When you implement this function, remove this line.
-    (void) url;      // prevent warnings... When you implement this function, remove this line.
-
-    return true; // replaceme
+    if (whenVisitedTable.keyExists(customer+url))
+      return true;
+    else;
+      return false; // replaceme
 }
 
 /**
@@ -110,15 +119,14 @@ bool LogfileParser::hasVisited(const string& customer, const string& url) const
 time_t LogfileParser::dateVisited(const string& customer,
                                   const string& url) const
 {
-
     /**
      * @todo Implement this function.
      */
 
-    (void) customer; // prevent warnings... When you implement this function, remove this line.
-    (void) url;      // prevent warnings... When you implement this function, remove this line.
+    //(void) customer;  prevent warnings... When you implement this function, remove this line.
+  //  (void) url;       prevent warnings... When you implement this function, remove this line.
 
-    return time_t(); // replaceme
+    return whenVisitedTable.find(url+customer); // replaceme
 }
 
 /**
