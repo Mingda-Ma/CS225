@@ -272,7 +272,7 @@ class KDTree
 
     void clear(typename KDTree<Dim>::KDTreeNode* subRoot); 
 
-    Point<Dim> find(const Point<Dim> &query, int curDim, int left, int right, const Point<Dim> &currentBest) const;
+    Point<Dim> findcurrbest( const vector<Point<Dim>>& list, int left, int right,const  Point<Dim>& query, int dim)const;
 
     double getD(const Point<Dim> &first, const Point<Dim>&second) const;
 
