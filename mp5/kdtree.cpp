@@ -235,93 +235,93 @@ Point<Dim> KDTree<Dim>::findNearestNeighbor(const Point<Dim>& query) const
     /**
      * @todo Implement this function!
      */
-
-    return findcurrbest(Points, 0, Points.size()-1, query, 0);
+    return find(query, 0, 0, Points.size()-1, Points[(Points.size()-1)/2]);
+    //return findcurrbest(Points, 0, Points.size()-1, query, 0);
 }
 
 
-// template<int Dim>
-// Point<Dim> KDTree<Dim>::find(const Point<Dim> &query, int curDim, int left, int right, const Point<Dim> &currentBest) const
-// {
-//     int median = (left + right)/2;
-//     int sMedian;
-//     Point<Dim> ret = currentBest;
-//     bool target_left = true;
-//     Point<Dim> temp = Points[median]; //get the temptory point in the middle
+template<int Dim>
+Point<Dim> KDTree<Dim>::find(const Point<Dim> &query, int curDim, int left, int right, const Point<Dim> &currentBest) const
+{
+    int median = (left + right)/2;
+    int sMedian;
+    Point<Dim> ret = currentBest;
+    bool target_left = true;
+    Point<Dim> temp = Points[median]; //get the temptory point in the middle
 
-//     if(left == right){
-//         //case leaf
-//        if(shouldReplace(query, currentBest, Points[left])){
-//             ret = Points[left];
-//             return ret;
-//         }
-//         ret = currentBest;
-//         return ret;
-//     }
-//     //if the nearest exists at the right
-//     if(smallerDimVal(Points[median], query, curDim) && right > median){
-//         ret = find(query, (curDim+1)%Dim, median+1, right, currentBest);
-//         target_left = false;
-//         sMedian = (left+median-1)/2;
-//     }
-//     //if the nearest exists at the left
-//     if(smallerDimVal(query, Points[median], curDim) && left < median){   
-//         ret = find(query, (curDim+1)%Dim, left, median-1, currentBest);
-//         target_left = true;
-//         sMedian = (median+1+right-1)/2;
-//     }
-//     //determine whether to replace
-//     if(shouldReplace(query, ret, Points[median]))
-//         ret = Points[median];
+    if(left == right){
+        //case leaf
+       if(shouldReplace(query, currentBest, Points[left])){
+            ret = Points[left];
+            return ret;
+        }
+        ret = currentBest;
+        return ret;
+    }
+    //if the nearest exists at the right
+    if(smallerDimVal(Points[median], query, curDim) && right > median){
+        ret = find(query, (curDim+1)%Dim, median+1, right, currentBest);
+        target_left = false;
+        sMedian = (left+median-1)/2;
+    }
+    //if the nearest exists at the left
+    if(smallerDimVal(query, Points[median], curDim) && left < median){   
+        ret = find(query, (curDim+1)%Dim, left, median-1, currentBest);
+        target_left = true;
+        sMedian = (median+1+right-1)/2;
+    }
+    //determine whether to replace
+    if(shouldReplace(query, ret, Points[median]))
+        ret = Points[median];
      
-//     if (pow(temp[curDim] - query[curDim],2) <= getDistance(query, ret)){
-//         if (target_left && right > median)
-//             ret = find(query, (curDim+1) % Dim, median+1, right, ret);
-//         if (!target_left && left < median)
-//             ret = find(query, (curDim+1) % Dim, left, median-1, ret);
+    if (pow(temp[curDim] - query[curDim],2) <= getDistance(query, ret)){
+        if (target_left && right > median)
+            ret = find(query, (curDim+1) % Dim, median+1, right, ret);
+        if (!target_left && left < median)
+            ret = find(query, (curDim+1) % Dim, left, median-1, ret);
+    }
+    return ret;
+
+}
+
+// template <int Dim>
+// Point<Dim> KDTree<Dim>::findcurrbest( const vector<Point<Dim>>& list, int left, int right, const Point<Dim>& query, int dim)const {
+//   Point<Dim> currbest,curr;
+//   if (left >= right){
+//     currbest=list[left];
+//     return currbest;
+
+//   }
+//   int mid = (left+right)/2;
+//   curr=list[mid];
+//   if (smallerDimVal(query,list[mid],dim)){
+
+//       currbest = findcurrbest(list, mid+1, right, query, (dim+1)%Dim);
+
+//     if (shouldReplace(query, currbest, curr))
+//       currbest=curr;
+//     if (getD(currbest,query)> fabs(curr[dim]-query[dim]) || getD(currbest,query) == fabs(curr[dim]-query[dim])){
+//       Point<Dim> otherside=findcurrbest(list, left, mid-1, query, (dim+1)%Dim);
+//       if (shouldReplace(query, currbest, otherside))
+//         currbest=otherside;
+//       }
+//              return currbest;
 //     }
-//     return ret;
+// else {
+
+//       currbest = findcurrbest(list, left, mid-1, query, (dim+1)%Dim);
+
+//   if (shouldReplace(query, currbest, curr))
+//      currbest=curr;
+//   if (getD(currbest,query)> fabs(curr[dim]-query[dim]) || getD(currbest,query)== fabs(curr[dim]-query[dim])){
+//      Point<Dim> otherside = findcurrbest(list, mid+1, right, query, (dim+1)%Dim);
+//      if (shouldReplace(query, currbest, otherside))
+//        currbest=otherside;
+//      }
+//             return currbest;
+//     }
 
 // }
-
-template <int Dim>
-Point<Dim> KDTree<Dim>::findcurrbest( const vector<Point<Dim>>& list, int left, int right, const Point<Dim>& query, int dim)const {
-  Point<Dim> currbest,curr;
-  if (left >= right){
-    currbest=list[left];
-    return currbest;
-
-  }
-  int mid = (left+right)/2;
-  curr=list[mid];
-  if (smallerDimVal(query,list[mid],dim)){
-
-      currbest = findcurrbest(list, mid+1, right, query, (dim+1)%Dim);
-
-    if (shouldReplace(query, currbest, curr))
-      currbest=curr;
-    if (getD(currbest,query)> fabs(curr[dim]-query[dim]) || getD(currbest,query) == fabs(curr[dim]-query[dim])){
-      Point<Dim> otherside=findcurrbest(list, left, mid-1, query, (dim+1)%Dim);
-      if (shouldReplace(query, currbest, otherside))
-        currbest=otherside;
-      }
-             return currbest;
-    }
-else {
-
-      currbest = findcurrbest(list, left, mid-1, query, (dim+1)%Dim);
-
-  if (shouldReplace(query, currbest, curr))
-     currbest=curr;
-  if (getD(currbest,query)> fabs(curr[dim]-query[dim]) || getD(currbest,query)== fabs(curr[dim]-query[dim])){
-     Point<Dim> otherside = findcurrbest(list, mid+1, right, query, (dim+1)%Dim);
-     if (shouldReplace(query, currbest, otherside))
-       currbest=otherside;
-     }
-            return currbest;
-    }
-
-}
 
 template <int Dim>
 void KDTree<Dim>::clear(typename KDTree<Dim>::KDTreeNode* subRoot) {
