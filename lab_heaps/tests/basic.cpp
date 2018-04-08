@@ -78,6 +78,10 @@ TEST_CASE("test_build_heap_2", "[weight=1]")
 	myHeap.getElems(test);
 	vector<int> expected1 = {1,7,2,9,8,5};
 	vector<int> expected2 = {1,2,5,8,7,9};
+	for (auto& j : test){
+		std::cout << j << " ";
+	}
+	std::cout <<endl; 
 	bool matches = (test == expected1) || (test == expected2);
 	REQUIRE(matches == true);
 }
