@@ -11,8 +11,8 @@
  * Uses two sentinel nodes, each initially of height 1
  */
 SkipList::SkipList() {
-    SkipNode* head_ = new SkipNode();
-    SkipNode* tail_ = new SkipNode();
+    head_ = new SkipNode();
+    tail_ = new SkipNode();
 
     head_->nodePointers[0].next = tail_;
     tail_->nodePointers[0].prev = head_;
