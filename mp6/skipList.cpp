@@ -4,7 +4,8 @@
  */
 
 #include "skipList.h"
-
+#include <iostream>
+using namespace std;
 
 /**
  * Default constructs the SkipList.
@@ -23,11 +24,12 @@ SkipList::SkipList() {
     tail_->key = INT_MAX;
     tail_->value = HSLAPixel();
 
-    int listHeight_ = 1;
-    int length_ = 0;
+    listHeight_ = 1;
+    length_ = 0;
 
-    int probability_ = 50;
-    int maxLevel_ = 14;  // log(128 * 128)
+    probability_ = 50;
+    maxLevel_ = 14;  // log(128 * 128)
+    cout << head_ <<"  " <<tail_<<endl;
 }
 
 /**
@@ -60,6 +62,7 @@ void SkipList::insert(int key, HSLAPixel value) {
     // be updated to the new value.
     if (temp) {
         temp->value = value;
+        return; 
     }
 
     length_++;
@@ -86,7 +89,7 @@ void SkipList::insert(int key, HSLAPixel value) {
         head_->nodePointers.push_back(SkipPointer());
         tail_->nodePointers.push_back(SkipPointer());
     }
-     
+
     this->listHeight_ = max(this->listHeight_, newNodeLevel);
 
     SkipNode * prev = traverse;
@@ -136,7 +139,7 @@ void SkipList::insert(int key, HSLAPixel value) {
 HSLAPixel SkipList::search(int key) {
     SkipNode * retval = find(key);
 
-    if (retval == NULL) {
+    if (retval != NULL) {
         return retval->value;
     }
 
@@ -181,7 +184,8 @@ SkipNode * SkipList::findRHelper(int key, int level, SkipNode * curr) {
     }
 
     int nextKey =  curr->nodePointers[level].next->key;
-    SkipNode* ret;
+    cout << nextKey <<endl;
+    SkipNode* ret = NULL;
 
     // Base Case:
     if (nextKey == key) {
@@ -189,13 +193,14 @@ SkipNode * SkipList::findRHelper(int key, int level, SkipNode * curr) {
     }
 
     // Recusive Case:
-    if (nextKey > key) {
-        ret = findRHelper(key, level, curr);
+    else if (nextKey > key) {
+        ret = findRHelper(key, level-1 , curr);
     } else {
-        ret = findRHelper(key, level, curr->nodePointers[level].next);    
+        ret = findRHelper(key, level, curr->nodePointers[level].next);
     }
-
-    return NULL;
+    //
+    // return NULL;
+    return ret;
 }
 
 /**
@@ -210,10 +215,12 @@ SkipNode * SkipList::findI(int key) {
     int level = head_->nodePointers.size()-1;
 
     while (traverse->nodePointers[0].next != tail_ && level >= 0) {
+            cout << "hehe" <<endl;
         int nextKey = traverse->nodePointers[level].next->key;
-
+        cout << nextKey <<endl;
         if (nextKey == key) {
             retNode = traverse->nodePointers[level].next;
+            return retNode;
         } else if (key < nextKey) {
             level--;
         } else {
@@ -269,11 +276,10 @@ vector<int> SkipList::traverse() {
     vector<int> ret;
     SkipNode * listPrintingTraverser = head_;
 
-    while (listPrintingTraverser != tail_) {
+    while (listPrintingTraverser != tail_->nodePointers[0].next) {
         ret.push_back(listPrintingTraverser->key);
         listPrintingTraverser = listPrintingTraverser->nodePointers[0].next;
     }
 
     return ret;
 }
-

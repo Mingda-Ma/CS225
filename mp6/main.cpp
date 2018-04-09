@@ -19,7 +19,7 @@ using namespace cs225;
 using namespace std;
 
 
-/** 
+/**
  * Sets the global variable maxLevel to log_2 of imgSize
  * @param imgSize A power of two which gives how large of an image this list represents
  */
@@ -33,7 +33,7 @@ int maxLevelLog(int imgSize)  {
 }
 
 
-/* 
+/*
  * Returns whether the given value is a power of two, using the magic of bitshifting
  * @param val The value to check for power-of-two-ness
  * @return Whether val was a power of two
@@ -73,7 +73,7 @@ HSLAPixel colorPicker(string s, HSLAPixel d = HSLAPixel(0,0 ,0))
     return color;
 }
 
-int main(int argc, char *argv[]) 
+int main(int argc, char *argv[])
 {
     // Setting seed for random number generator use time(NULL) for more random behavior
     // Seed it for deterministic numbers, useful for debugging
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    int img_size = stoi(argv[1]);		
+    int img_size = stoi(argv[1]);
     int probability = stoi(argv[2]);
     HSLAPixel fore = HSLAPixel(0, 0, 0);
     HSLAPixel back = HSLAPixel(0, 0, 1);
@@ -101,8 +101,8 @@ int main(int argc, char *argv[])
         transform(c.begin(), c.end(), c.begin(), ::tolower);
         back = colorPicker(c, HSLAPixel(0, 0 , 1));
     }
-         
-            
+
+
 
     /* Feel free to change 256 to 512 if you want a bigger image.
      *  Just be aware it will be very slow (it might be too big and break)!
@@ -124,10 +124,10 @@ int main(int argc, char *argv[])
             " Use something like chrome to view (google-chrome out-structure.png &)" << endl;
     }
 
-    
+
     HSLAPixel temp(10,11,12);
     SkipList * test = new SkipList(probability, maxLevelLog(img_size*img_size));
-
+    //cout << test->head_ <<endl;
     for(int i = 0; i < img_size*img_size; i++) {
         test->insert(i, temp);
     }

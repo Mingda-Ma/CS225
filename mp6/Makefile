@@ -24,7 +24,7 @@ list: gdb-examples/list.cpp
 
 playground: gdb-examples/playground.cpp
 	$(CXX) $(EXAMPLEFLAGS) $(LDFLAGS) gdb-examples/playground.cpp -o playground
-	
+
 recurse: gdb-examples/recurse.cpp
 	$(CXX) $(EXAMPLEFLAGS) $(LDFLAGS) gdb-examples/recurse.cpp -o recurse
 
