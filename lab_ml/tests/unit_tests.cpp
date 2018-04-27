@@ -39,6 +39,7 @@ TEST_CASE("NimLearner(10) constructor creates a starting vertex \"p1-10\"", "[we
   NimLearner nim(10);
 
   const Graph & g = nim.getGraph();
+  std::cout << g.getStartingVertex() <<std::endl;
   REQUIRE( vertexExists(g, "p1-10") );
 }
 
