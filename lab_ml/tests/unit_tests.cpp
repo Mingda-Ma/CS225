@@ -39,7 +39,7 @@ TEST_CASE("NimLearner(10) constructor creates a starting vertex \"p1-10\"", "[we
   NimLearner nim(10);
 
   const Graph & g = nim.getGraph();
-  std::cout << g.getStartingVertex() <<std::endl;
+  //std::cout << g.getStartingVertex() <<std::endl;
   REQUIRE( vertexExists(g, "p1-10") );
 }
 
@@ -162,6 +162,10 @@ TEST_CASE("NimLearner(4) learns that (p1-4, p2-3) is a better edge than (p1-4, p
   }
 
   const Graph & g = nim.getGraph();
+  //cout << g.getEdgeWeight( g.getVertexByLabel("p1-4"), g.getVertexByLabel("p2-3")) << "  "<<g.getEdgeWeight( g.getVertexByLabel("p1-4"), g.getVertexByLabel("p2-2"))<<endl;
+  for (auto& i : g.getEdges()){
+    cout << g.getEdgeWeight(i.source, i.dest) << endl;
+  }
   REQUIRE(
     g.getEdgeWeight( g.getVertexByLabel("p1-4"), g.getVertexByLabel("p2-3")) >
     g.getEdgeWeight( g.getVertexByLabel("p1-4"), g.getVertexByLabel("p2-2"))
